@@ -1,0 +1,31 @@
+########## ENVIRONMENT ########
+NCCL_LOCATION=/home/ldai8/NCCL/deps-nccl/nccl/build
+
+~/nccl-learning ~/nccl-learning
++ mpirun -np 2 -ppn 1 /home/ldai8/nccl-learning/ncclp2p
+val[i] is: 0.000000
+val[i] is: 1.000000
+val[i] is: 2.000000
+val[i] is: 3.000000
+val[i] is: 4.000000
+val[i] is: 5.000000
+val[i] is: 6.000000
+val[i] is: 7.000000
+val[i] is: 8.000000
+val[i] is: 9.000000
+val[i] is: 0.000000
+val[i] is: 1.000000
+val[i] is: 2.000000
+val[i] is: 3.000000
+val[i] is: 4.000000
+val[i] is: 5.000000
+val[i] is: 6.000000
+val[i] is: 7.000000
+val[i] is: 8.000000
+val[i] is: 9.000000
+this rank is: 0
+this rank is: 1
+rank 0 Success 
+rank 1 Success 
++ set +x
+~/nccl-learning

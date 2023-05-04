@@ -43,7 +43,7 @@ echo ""
 # export NCCL_ALGO=Tree
 # export NCCL_PROTO=LL128
 
-pushd /home/ldai8/nccl-learning
+pushd /home/ldai8/nccl-learning/p2p
 
 nvcc -I/opt/apps/mpi/mpich-3.4.2_nvidiahpc-21.9-0/include ncclp2p.cc -o ncclp2p -L/home/ldai8/NCCL/deps-nccl/nccl/build/lib -lnccl -L/opt/apps/mpi/mpich-3.4.2_nvidiahpc-21.9-0/lib -lmpi
 

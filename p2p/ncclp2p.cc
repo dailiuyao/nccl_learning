@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
 
     for (int i=0; i<datasize; i++){
         val[i] = i;
-        printf("val[i] is: %f\n",val[i]);
+        printf("In rank %d, val[%d] is: %f\n", rank, i, val[i]);
     }
 
     cudaMemcpy(sendbuff, val, datasize * sizeof(float), cudaMemcpyHostToDevice);

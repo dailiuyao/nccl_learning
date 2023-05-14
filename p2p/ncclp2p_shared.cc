@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "cuda_runtime.h"
+#include "mynccl_code.h"
 #include "mpi.h"
 #include "nccl.h"
 #include <cstdlib>
@@ -60,17 +61,17 @@ int main(int argc, char* argv[]){
 
     // Initialize the NCCL communicator for this rank
     ncclUniqueId ncclId;
-    ncclComm_t ncclComm;
+    MyNcclComm_t MyncclComm;
     // Generate a unique NCCL ID on rank 0
     if (rank == 0) ncclGetUniqueId(&ncclId);
     MPICHECK(MPI_Bcast((void *)&ncclId, sizeof(ncclId), MPI_BYTE, 0, MPI_COMM_WORLD));
 
     if (rank == 0) {
         // Initialize the NCCLcommunicator for rank 0
-        ncclCommInitRank(&ncclComm, 2, ncclId, 0);
+        ncclCommInitRank(&(MyncclComm.ncclComm), 2, ncclId, 0);
     } else {
         // Initialize the NCCL communicator for rank 1
-        ncclCommInitRank(&ncclComm, 2, ncclId, 1);
+        ncclCommInitRank(&(MyncclComm.ncclComm), 2, ncclId, 1);
     }
 
     //allocating and initializing device buffers
@@ -100,11 +101,11 @@ int main(int argc, char* argv[]){
     // Send data from rank 0 to rank 1
     if(rank == 0)
     {
-        ncclSend(sendbuff, datasize, ncclFloat, 1, ncclComm, s);
+        my_ncclSend(sendbuff, datasize, ncclFloat, 1, MyncclComm, s);
     }
     else
     {
-        ncclRecv(recvbuff, datasize, ncclFloat, 0, ncclComm, s);
+        ncclRecv(recvbuff, datasize, ncclFloat, 0, MyncclComm.ncclComm, s);
     }
     // NCCLCHECK(ncclGroupEnd());
 
@@ -128,7 +129,7 @@ int main(int argc, char* argv[]){
     cudaFree(sendbuff);
     cudaFree(recvbuff);
     cudaStreamDestroy(s);
-    ncclCommDestroy(ncclComm);
+    ncclCommDestroy(MyncclComm.ncclComm);
 
     MPI_Finalize();
 
